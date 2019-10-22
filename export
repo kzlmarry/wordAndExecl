@@ -1,0 +1,18 @@
+/**
+	 * 餐劵购买申请信息导出excel
+	 */
+	@RequestMapping("exportMealExcel")
+	public void exportMealExcel(MealApplication application,HttpServletRequest request,HttpServletResponse response)throws Exception {
+		List<MealApplication> list = service.FindAll(application);
+		//2.导出
+		//这里设置的文件格式是application/x-excel
+		response.setContentType("application/x-excel");
+		String fileName ="餐劵购买申请信息.xls";
+		response.setHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes(), "ISO-8859-1"));
+		ServletOutputStream outputStream = response.getOutputStream();
+		ExportExcel.exportMealExcel(list, outputStream);
+		if(outputStream != null) {
+			outputStream.close();
+		}
+	}
+	
